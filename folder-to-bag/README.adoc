@@ -1,0 +1,5 @@
+== Folder to bag
+
+The files and folders in here serve no purpose but to be bagged for demo purposes.
+
+This is a text file. We will include a sub-folder and a couple of other file types.

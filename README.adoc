@@ -1,0 +1,90 @@
+== BagIt
+
+The bagit-python library can be found here: https://github.com/LibraryOfCongress/bagit-python
+
+I have downloaded it and included it as a sub-folder in this project. This is to demonstrate the simplest way to use it. You can run each of the commands below on the command line.
+
+[source,bash]
+----
+# Remove the bag-in-place folder we're about to create, if we have created it.
+rm -rf bag-in-place
+
+# To avoid modifying the test folder, first we create a copy of it called "bag-in-place".
+cp -rf folder-to-bag bag-in-place
+
+# The following runs bagit.py from its sub-directory against the new "bag-in-place" directory.
+# Note that the following sets the hash algorithm to SHA-1 (MD5 is default).
+# You can change it to stronger hashes. i.e. Use --sha512 instead.
+./bagit-python/bagit.py --sha1 --contact-name 'Yvette' bag-in-place
+
+# Zip the bag-in-place folder with its BagIt manifest files.
+# The "-r" means recursive - get all folders and files in the folder.
+zip -r bag-in-place.zip bag-in-place
+----
+
+However, I have also created a short Bash shell script called `bag.sh` in this folder, which runs each of the above. Just open this folder on the command line and run:
+
+[source,bash]
+----
+./bag.sh
+----
+
+That will clear out the test bag, create a new one and zip it.
+
+
+=== BagIt Profiles
+
+With `bagit-python`, the profile isn't used to generate the `bag-info.txt`. However, you can define one through the arguments to it. For example:
+
+----
+--bagit-profile-identifier 'https://cdn.jsdelivr.net/gh/ResearchObject/bagit-ro@0.2.20160422/profile.json'
+----
+
+You can take a look at that JSON file in a web browser. The idea with profiles is that you can declare what profile the bag meets. That URL gets added to `bagit.txt`. As part of a workflow, you can then validate whether the bag meets the profile.
+
+There is a Python BagIt profiles validator here: https://github.com/bagit-profiles/bagit-profiles-validator
+
+
+=== Usage of bagit.py
+
+Using bagit.py on the command line, you get a variety of options, to define the metadata which sill be saved in the manifest. In the example above, I set the `--contact-name` to "Yvette". Similarly you can set the organization name and address, you can change the hash algorithm, and more.
+
+----
+usage: bagit.py [-h] [--processes PROCESSES] [--log LOG] [--quiet]
+                [--validate] [--fast] [--completeness-only] [--sha3_256]
+                [--sha3_224] [--shake_256] [--sha1] [--shake_128] [--sha3_512]
+                [--sha512] [--sha224] [--sha384] [--md5] [--sha256]
+                [--blake2s] [--blake2b] [--sha3_384]
+                [--source-organization SOURCE_ORGANIZATION]
+                [--organization-address ORGANIZATION_ADDRESS]
+                [--contact-name CONTACT_NAME] [--contact-phone CONTACT_PHONE]
+                [--contact-email CONTACT_EMAIL]
+                [--external-description EXTERNAL_DESCRIPTION]
+                [--external-identifier EXTERNAL_IDENTIFIER]
+                [--bag-size BAG_SIZE]
+                [--bag-group-identifier BAG_GROUP_IDENTIFIER]
+                [--bag-count BAG_COUNT]
+                [--internal-sender-identifier INTERNAL_SENDER_IDENTIFIER]
+                [--internal-sender-description INTERNAL_SENDER_DESCRIPTION]
+                [--bagit-profile-identifier BAGIT_PROFILE_IDENTIFIER]
+                directory [directory ...]
+----
+
+
+=== Install bagit as a Python module
+
+You can download the Bagit-Python code and use it directly, but if you have Python on your machine, then you _might_ also have a tool called `pip` which is used for installing Python libraries. If you do, then this is the easiest way to use it. However, if I understand right, MacOS Python doesn't include this by default. So the following for now is for informational purposes only, to see whether it's an option. If it works, then you should be able to install bagit and use it easily as a module in your own Python applications.
+
+Run this on the command line:
+
+[source,bash]
+----
+pip install bagit
+----
+
+If that works, then you're good to go. You can check with the following command which will display the bagit-python help. Note that `-m` tells python to run a module with the given name.
+
+[source,bash]
+----
+python -m bagit --help
+----
