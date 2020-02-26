@@ -31,6 +31,8 @@ python validate-bag.py
 
 If the `bag-in-place` folder is there and unmodified after bagging, this should echo a message to say whether it is ok. Try modifying the `README.adoc` inside `bag-in-place/data`. Run the validate script again. It should tell you that the bag is not valid.
 
+Have a look inside `validate-bag.py` to see what it does. It's a very simple Python script that uses `bagit-python` to validate a bag.
+
 
 === BagIt Profiles
 
