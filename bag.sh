@@ -9,7 +9,7 @@ cp -rf folder-to-bag bag-in-place
 # The following runs bagit.py from its sub-directory against the new "bag-in-place" directory.
 # Note that the following sets the hash algorithm to SHA-1 (MD5 is default).
 # You can change it to stronger hashes. i.e. Use --sha512 instead.
-./bagit-python/bagit.py --sha1 --contact-name 'Yvette' bag-in-place
+python ./bagit.py --sha1 --contact-name 'Yvette' bag-in-place
 
 # Zip the bag-in-place folder with its BagIt manifest files.
 # The "-r" means recursive - get all folders and files in the folder.
