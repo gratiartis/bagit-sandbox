@@ -1,16 +1,21 @@
 #!/bin/bash
 
-# Remove the bag-in-place folder we're about to create, if we have created it.
-rm -rf bag-in-place
-
-# To avoid modifying the test folder, first we create a copy of it called "bag-in-place".
-cp -rf folder-to-bag bag-in-place
-
 # The following runs bagit.py from its sub-directory against the new "bag-in-place" directory.
 # Note that the following sets the hash algorithm to SHA-1 (MD5 is default).
 # You can change it to stronger hashes. i.e. Use --sha512 instead.
-python ./bagit.py --sha1 --contact-name 'Yvette' bag-in-place
+# Note the main parts of this:
+#    python ./bagit.py         :: Run the bagit.py script using python
+#    --sha1                    :: Use the SHA-1 hash algorithm for manifests
+#    --contact-name 'Yvette'   :: Set the property in bag-info.txt - Contact-Name: Yvette 
+#    ./bag-in-place            :: The folder you want to bag. In this case a folder called 'bag-in-place'
+
+python ./bagit.py --sha1 --contact-name 'Yvette' ./bag-in-place
 
 # Zip the bag-in-place folder with its BagIt manifest files.
-# The "-r" means recursive - get all folders and files in the folder.
-zip -r bag-in-place.zip bag-in-place
+# Note the main parts of this:
+#    zip                    :: Run the zip command
+#    -r                     :: Recursive - get all folders and files in the folder.
+#    ./bag-in-place.zip     :: The path & name of the zip file to create.
+#    ./bag-in-place         :: The path & name of the folder to zip.
+
+zip -r ./bag-in-place.zip ./bag-in-place

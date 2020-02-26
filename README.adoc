@@ -2,36 +2,34 @@
 
 The bagit-python library can be found here: https://github.com/LibraryOfCongress/bagit-python
 
-I have downloaded it and included it as a sub-folder in this project. This is to demonstrate the simplest way to use it. You can run each of the commands below on the command line.
+I have taken bagit.py out of it and included it here in this project. To see an example of using bagit-python, I have created a couple of scripts you can run. In a terminal run each of the following commands.
 
 [source,bash]
 ----
-#!/bin/bash
+# Create a folder called bag-in-place. We will bag it in the next step.
+./prepare-test.sh
 
-# Remove the bag-in-place folder we're about to create, if we have created it.
-rm -rf bag-in-place
+# Take a look inside the bag-in-place folder now. See what is inside.
 
-# To avoid modifying the test folder, first we create a copy of it called "bag-in-place".
-cp -rf folder-to-bag bag-in-place
-
-# The following runs bagit.py from its sub-directory against the new "bag-in-place" directory.
-# Note that the following sets the hash algorithm to SHA-1 (MD5 is default).
-# You can change it to stronger hashes. i.e. Use --sha512 instead.
-python ./bagit.py --sha1 --contact-name 'Yvette' bag-in-place
-
-# Zip the bag-in-place folder with its BagIt manifest files.
-# The "-r" means recursive - get all folders and files in the folder.
-zip -r bag-in-place.zip bag-in-place
-----
-
-However, I have also created a short Bash shell script called `bag.sh` in this folder, which runs each of the above. Just open this folder on the command line and run:
-
-[source,bash]
-----
+# This script runs bagit-python on the bag-in-place folder and zips it.
 ./bag.sh
 ----
 
-That will clear out the test bag, create a new one and zip it.
+Take a look inside the `bag-in-place` folder to see what bagit-python did.
+
+Have a look inside `bag.sh` to see details of what it does.
+
+
+=== Validate the bag
+
+The following runs a python script in this folder called `validate-bag.py`.
+
+[source,bash]
+----
+python validate-bag.py
+----
+
+If the `bag-in-place` folder is there and unmodified after bagging, this should echo a message to say whether it is ok. Try modifying the `README.adoc` inside `bag-in-place/data`. Run the validate script again. It should tell you that the bag is not valid.
 
 
 === BagIt Profiles
@@ -70,23 +68,4 @@ usage: bagit.py [-h] [--processes PROCESSES] [--log LOG] [--quiet]
                 [--internal-sender-description INTERNAL_SENDER_DESCRIPTION]
                 [--bagit-profile-identifier BAGIT_PROFILE_IDENTIFIER]
                 directory [directory ...]
-----
-
-
-=== Install bagit as a Python module
-
-You can download the Bagit-Python code and use it directly, but if you have Python on your machine, then you _might_ also have a tool called `pip` which is used for installing Python libraries. If you do, then this is the easiest way to use it. However, if I understand right, MacOS Python doesn't include this by default. So the following for now is for informational purposes only, to see whether it's an option. If it works, then you should be able to install bagit and use it easily as a module in your own Python applications.
-
-Run this on the command line:
-
-[source,bash]
-----
-pip install bagit
-----
-
-If that works, then you're good to go. You can check with the following command which will display the bagit-python help. Note that `-m` tells python to run a module with the given name.
-
-[source,bash]
-----
-python -m bagit --help
 ----
